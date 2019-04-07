@@ -7,7 +7,7 @@
     <groupId>pl.plajer</groupId>
     <artifactId>commons-box</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <modules>
         <module>Commons Box Classic</module>
         <module>Commons Box Database</module>
@@ -73,6 +73,9 @@
                 </configuration>
                 <executions>
                     <execution>
+                        <goals>
+                            <goal>aggregate</goal>
+                        </goals>
                         <phase>deploy</phase>
                     </execution>
                 </executions>
