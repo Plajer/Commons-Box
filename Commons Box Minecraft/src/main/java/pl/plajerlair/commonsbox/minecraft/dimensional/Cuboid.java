@@ -128,14 +128,18 @@ public class Cuboid {
 
   public boolean isEmpty() {
     for (Block block : this.blockList()) {
-      if(block.getType() != Material.AIR) return false;
+      if(block.getType() != Material.AIR) {
+        return false;
+      }
     }
     return true;
   }
 
   public boolean contains(final Material material) {
     for (Block block : this.blockList()) {
-      if(block.getType() == material) return true;
+      if(block.getType() == material) {
+        return true;
+      }
     }
     return false;
   }
@@ -146,14 +150,20 @@ public class Cuboid {
     }
   }
 
-  public boolean collision(final Cuboid other) {
-    if (this.xMax < other.xMin || this.xMin > other.xMax) return false;
-    if (this.yMax < other.yMin || this.yMin > other.yMax) return false;
-    if (this.zMax < other.zMin || this.zMin > other.zMax) return false;
+  public boolean collidesWith(final Cuboid other) {
+    if (this.xMax < other.xMin || this.xMin > other.xMax) {
+      return false;
+    }
+    if (this.yMax < other.yMin || this.yMin > other.yMax) {
+      return false;
+    }
+    if (this.zMax < other.zMin || this.zMin > other.zMax) {
+      return false;
+    }
     return true;
   }
 
-  public static boolean collision(final Cuboid left, final Cuboid right) {
-    return left.collision(right);
+  public static boolean collidesWith(final Cuboid left, final Cuboid right) {
+    return left.collidesWith(right);
   }
 }
