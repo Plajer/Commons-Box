@@ -156,5 +156,4 @@ public class Cuboid {
   public static boolean collision(final Cuboid left, final Cuboid right) {
     return left.collision(right);
   }
-
 }
