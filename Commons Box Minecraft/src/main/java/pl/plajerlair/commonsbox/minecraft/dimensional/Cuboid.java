@@ -153,7 +153,7 @@ public class Cuboid {
     return true;
   }
 
-  public static boolean collision(final Cuboid left, final Cuboid right){
+  public static boolean collision(final Cuboid left, final Cuboid right) {
     return left.collision(right);
   }
 
