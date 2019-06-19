@@ -7,6 +7,7 @@ import java.util.Random;
 
 import org.bukkit.Chunk;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -124,4 +125,36 @@ public class Cuboid {
     return loc.getWorld() == this.world && loc.getX() >= this.xMinCentered - marge && loc.getX() <= this.xMaxCentered + marge && loc.getY() >= this.yMinCentered - marge && loc
         .getY() <= this.yMaxCentered + marge && loc.getZ() >= this.zMinCentered - marge && loc.getZ() <= this.zMaxCentered + marge;
   }
+
+  public boolean isEmpty() {
+    for (Block block : this.blockList()) {
+      if(block.getType() != Material.AIR) return false;
+    }
+    return true;
+  }
+
+  public boolean contains(final Material material) {
+    for (Block block : this.blockList()) {
+      if(block.getType() == material) return true;
+    }
+    return false;
+  }
+
+  public void fill(final Material material) {
+    for (Block block : this.blockList()) {
+      block.setType(material);
+    }
+  }
+
+  public boolean collision(final Cuboid other) {
+    if (this.xMax < other.xMin || this.xMin > other.xMax) return false;
+    if (this.yMax < other.yMin || this.yMin > other.yMax) return false;
+    if (this.zMax < other.zMin || this.zMin > other.zMax) return false;
+    return true;
+  }
+
+  public static boolean collision(final Cuboid left, final Cuboid right){
+    return left.collision(right);
+  }
+
 }
