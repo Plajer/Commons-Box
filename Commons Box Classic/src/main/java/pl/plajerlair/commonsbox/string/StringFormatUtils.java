@@ -11,14 +11,14 @@ public class StringFormatUtils {
   }
 
   /**
-   * Format seconds to mm:ss, ex 615 seconds 60:15 (60 minutes, 15 seconds)
+   * Format seconds to mm:ss, ex 04:02 - 4 minutes and 2 seconds
    *
    * @param secsIn seconds to format
    * @return String with formatted time
    */
   public static String formatIntoMMSS(int secsIn) {
-    int minutes = secsIn / 60,
-        seconds = secsIn % 60;
+    int minutes = secsIn / 60;
+    int seconds = secsIn % 60;
     return ((minutes < 10 ? "0" : "") + minutes
         + ":" + (seconds < 10 ? "0" : "") + seconds);
   }
@@ -27,10 +27,10 @@ public class StringFormatUtils {
    * Returns progress bar in a string.
    * Whole code can be found https://www.spigotmc.org/threads/progress-bars-and-percentages.276020/
    *
-   * @param current           current percentage
-   * @param max               maximum percentage
-   * @param totalBars         maximum bars amount
-   * @param symbol            symbol of the bar (ex. '|')
+   * @param current               current percentage
+   * @param max                   maximum percentage
+   * @param totalBars             maximum bars amount
+   * @param symbol                symbol of the bar (ex. '|')
    * @param completedCharacter    character of completed bar
    * @param notCompletedCharacter character of not completed bar
    * @return String with requested progress
@@ -42,11 +42,11 @@ public class StringFormatUtils {
 
     StringBuilder sb = new StringBuilder();
     sb.append(completedCharacter);
-    for(int i = 0; i < progressBars; i++) {
+    for (int i = 0; i < progressBars; i++) {
       sb.append(symbol);
     }
-    sb.append( notCompletedCharacter);
-    for(int i = 0; i < leftOver; i++) {
+    sb.append(notCompletedCharacter);
+    for (int i = 0; i < leftOver; i++) {
       sb.append(symbol);
     }
     return sb.toString();
