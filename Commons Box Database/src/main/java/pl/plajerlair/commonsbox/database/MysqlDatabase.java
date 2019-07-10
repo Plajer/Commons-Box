@@ -20,6 +20,19 @@ public class MysqlDatabase {
   private HikariDataSource hikariDataSource;
   private Logger databaseLogger = Logger.getLogger("CommonsBox Database");
 
+  public MysqlDatabase(String user, String password, String jdbcUrl) {
+    databaseLogger.log(Level.INFO, "Configuring MySQL connection!");
+    configureConnPool(user, password, jdbcUrl);
+
+    try (Connection connection = getConnection()) {
+      if (connection == null) {
+        databaseLogger.log(Level.SEVERE, "Failed to connect to database!");
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
   public MysqlDatabase(String user, String password, String host, String database, int port) {
     databaseLogger.log(Level.INFO, "Configuring MySQL connection!");
     configureConnPool(user, password, host, database, port);
@@ -33,11 +46,28 @@ public class MysqlDatabase {
     }
   }
 
+  private void configureConnPool(String user, String password, String jdbcUrl) {
+    try {
+      databaseLogger.info("Creating HikariCP Configuration...");
+      HikariDataSource config = new HikariDataSource();
+      config.setJdbcUrl(jdbcUrl);
+      config.addDataSourceProperty("user", user);
+      config.addDataSourceProperty("password", password);
+      hikariDataSource = config;
+      databaseLogger.info("Setting up MySQL Connection pool...");
+      databaseLogger.info("Connection pool successfully configured. ");
+    } catch (Exception e) {
+      e.printStackTrace();
+      databaseLogger.warning("Cannot connect to MySQL database!");
+      databaseLogger.warning("Check configuration of your database settings!");
+    }
+  }
+
   private void configureConnPool(String user, String password, String host, String database, int port) {
     try {
       databaseLogger.info("Creating HikariCP Configuration...");
       HikariDataSource config = new HikariDataSource();
-      config.setDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
+      config.setDataSourceClassName("com.mysql.cj.jdbc.MysqlDataSource");
       config.addDataSourceProperty("serverName", host);
       config.addDataSourceProperty("portNumber", port);
       config.addDataSourceProperty("databaseName", database);

@@ -38,14 +38,14 @@ public class InventorySerializer {
    * @return true if saved properly, false if inventory is null or couldn't save
    */
   public static boolean saveInventoryToFile(JavaPlugin plugin, Player player) {
-    String UUID = player.getUniqueId().toString();
+    String uuid = player.getUniqueId().toString();
     PlayerInventory inventory = player.getInventory();
     File path = new File(plugin.getDataFolder() + File.separator + "inventories");
     if (inventory == null) {
       return false;
     }
     try {
-      File invFile = new File(plugin.getDataFolder() + File.separator + "inventories" + File.separator, UUID + ".invsave");
+      File invFile = new File(plugin.getDataFolder() + File.separator + "inventories" + File.separator, uuid + ".invsave");
       if (!path.exists()) {
         path.mkdir();
       }
@@ -101,8 +101,8 @@ public class InventorySerializer {
     }
   }
 
-  private static Inventory getInventoryFromFile(JavaPlugin plugin, String UUID) {
-    File file = new File(plugin.getDataFolder() + File.separator + "inventories" + File.separator + UUID + ".invsave");
+  private static Inventory getInventoryFromFile(JavaPlugin plugin, String uuid) {
+    File file = new File(plugin.getDataFolder() + File.separator + "inventories" + File.separator + uuid + ".invsave");
     if (!file.exists() || file.isDirectory() || !file.getAbsolutePath().endsWith(".invsave")) {
       return Bukkit.createInventory(null, 9);
     }
@@ -194,6 +194,7 @@ public class InventorySerializer {
 
       player.updateInventory();
     } catch (Exception ignored) {
+      //ignore any exceptions
     }
   }
 

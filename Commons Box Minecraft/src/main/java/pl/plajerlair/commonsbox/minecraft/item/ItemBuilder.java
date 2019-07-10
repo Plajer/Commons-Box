@@ -79,8 +79,12 @@ public class ItemBuilder {
 
   public ItemBuilder colorizeItem() {
     ItemMeta meta = this.itemStack.getItemMeta();
-    meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', meta.getDisplayName()));
-    meta.setLore(meta.getLore().stream().map(line -> ChatColor.translateAlternateColorCodes('&', line)).collect(Collectors.toList()));
+    if(meta.hasDisplayName()) {
+      meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', meta.getDisplayName()));
+    }
+    if(meta.hasLore()) {
+      meta.setLore(meta.getLore().stream().map(line -> ChatColor.translateAlternateColorCodes('&', line)).collect(Collectors.toList()));
+    }
     return this;
   }
 

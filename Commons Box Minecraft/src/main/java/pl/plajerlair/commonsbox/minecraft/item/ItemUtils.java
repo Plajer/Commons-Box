@@ -31,7 +31,7 @@ public class ItemUtils {
    * @param stack item stack to check
    * @return true if named, false otherwise
    */
-  public static boolean isItemName(ItemStack stack) {
+  public static boolean isItemStackNamed(ItemStack stack) {
     if (stack == null) {
       return false;
     }
