@@ -2,7 +2,6 @@ package pl.plajerlair.commonsbox.minecraft.serialization;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -58,10 +57,9 @@ public class LocationSerializer {
       throw new IllegalArgumentException("String from which location is retrieved cannot be null nor empty!");
     }
     String[] loc = path.split(",");
-    World w = Bukkit.getServer().getWorld(loc[0]);
-    if (w == null) {
-      w = Bukkit.createWorld(new WorldCreator(loc[0]));
-      Bukkit.getLogger().log(Level.WARNING, "[Commons Box] World name " + loc[0] + " doesn't exist and tried to deserialize itself! You can contact Plajer if this message occurs more times!");
+    World world = Bukkit.getServer().getWorld(loc[0]);
+    if (world == null) {
+      world = Bukkit.createWorld(new WorldCreator(loc[0]));
     }
     double x = Double.parseDouble(loc[1]);
     double y = Double.parseDouble(loc[2]);
@@ -69,9 +67,9 @@ public class LocationSerializer {
     if (loc.length > 4) {
       float yaw = Float.parseFloat(loc[4]);
       float pitch = Float.parseFloat(loc[5]);
-      return new Location(w, x, y, z, yaw, pitch);
+      return new Location(world, x, y, z, yaw, pitch);
     }
-    return new Location(w, x, y, z);
+    return new Location(world, x, y, z);
   }
 
   /**
