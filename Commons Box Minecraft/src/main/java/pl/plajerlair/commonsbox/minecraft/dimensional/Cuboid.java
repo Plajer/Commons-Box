@@ -203,4 +203,36 @@ public class Cuboid {
   public static boolean collidesWith(final Cuboid left, final Cuboid right) {
     return left.collidesWith(right);
   }
+
+  public boolean match(final Cuboid other) {
+    return this.match(other, false);
+  }
+
+  public boolean match(final Cuboid other, final boolean ignoreState) {
+    if (this.getXWidth() != other.getXWidth() || this.getHeight() != other.getHeight() || this.getZWidth() != other.getZWidth()) {
+      return false;
+    }
+
+    final List<Block> thisBlocks = this.blockList();
+    final List<Block> otherBlocks = other.blockList();
+
+    for (int i = 0; i < thisBlocks.size(); i++) {
+      if (thisBlocks.get(i).getType() == otherBlocks.get(i).getType()) {
+        if (!ignoreState && thisBlocks.get(i).getState() != otherBlocks.get(i).getState()) {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  public static boolean match(final Cuboid left, final Cuboid right) {
+    return match(left, right, false);
+  }
+
+  public static boolean match(final Cuboid left, final Cuboid right, final boolean ignoreState) {
+    return left.match(right, ignoreState);
+  }
 }
