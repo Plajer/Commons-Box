@@ -23,4 +23,5 @@ Then add the dependency, select one of 3 modules: classic, minecraft, database
             <version>1.1.1</version>
             <scope>compile</scope>
         </dependency>
+    </dependencies>
 ```
