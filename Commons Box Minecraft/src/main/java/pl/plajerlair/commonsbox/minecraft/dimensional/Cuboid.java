@@ -129,7 +129,7 @@ public class Cuboid {
   }
 
   public int getTotalBlockSize() {
-    return this.getHeight() * this.getXWidth() * this.getArea();
+    return this.getHeight() * getArea();
   }
 
   public int getXWidth() {
@@ -189,7 +189,6 @@ public class Cuboid {
       block.setType(material);
     }
   }
-
 
   public boolean collidesWith(final Cuboid other) {
     if (this.xMax < other.xMin || this.xMin > other.xMax) {
