@@ -58,7 +58,7 @@ public class Cuboid {
   }
 
   public List<Block> blockListWithoutFloor() {
-    final List<Block> bL = new ArrayList<>(this.getTotalBlockSize() - this.getArea());
+    final List<Block> bL = new ArrayList<>(this.getTotalBlockSize() - (this.getXWidth() * this.getZWidth()));
     for (int x = this.xMin; x <= this.xMax; ++x) {
       for (int y = this.yMin + 1; y <= this.yMax; ++y) {
         for (int z = this.zMin; z <= this.zMax; ++z) {
@@ -71,7 +71,7 @@ public class Cuboid {
   }
 
   public List<Block> floorBlockList() {
-    final List<Block> bL = new ArrayList<>(this.getArea());
+    final List<Block> bL = new ArrayList<>(this.getXWidth() * this.getZWidth());
     for (int x = this.xMin; x <= this.xMax; ++x) {
       for (int z = this.zMin; z <= this.zMax; ++z) {
         final Block b = this.world.getBlockAt(x, this.yMin, z);
@@ -124,12 +124,8 @@ public class Cuboid {
     return new Location(this.world, x, y, z);
   }
 
-  public int getArea() {
-    return this.getXWidth() * this.getZWidth();
-  }
-
   public int getTotalBlockSize() {
-    return this.getHeight() * getArea();
+    return this.getHeight() * this.getXWidth() * this.getZWidth();
   }
 
   public int getXWidth() {
