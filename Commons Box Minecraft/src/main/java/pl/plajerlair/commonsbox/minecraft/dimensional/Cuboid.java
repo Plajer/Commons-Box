@@ -57,6 +57,30 @@ public class Cuboid {
     return bL;
   }
 
+  public List<Block> blockListWithoutFloor() {
+    final List<Block> bL = new ArrayList<>(this.getTotalBlockSize() - (this.getXWidth() * this.getZWidth()));
+    for (int x = this.xMin; x <= this.xMax; ++x) {
+      for (int y = this.yMin + 1; y <= this.yMax; ++y) {
+        for (int z = this.zMin; z <= this.zMax; ++z) {
+          final Block b = this.world.getBlockAt(x, y, z);
+          bL.add(b);
+        }
+      }
+    }
+    return bL;
+  }
+
+  public List<Block> floorBlockList() {
+    final List<Block> bL = new ArrayList<>(this.getXWidth() * this.getZWidth());
+    for (int x = this.xMin; x <= this.xMax; ++x) {
+      for (int z = this.zMin; z <= this.zMax; ++z) {
+        final Block b = this.world.getBlockAt(x, this.yMin, z);
+        bL.add(b);
+      }
+    }
+    return bL;
+  }
+
   public List<Chunk> chunkList() {
     final List<Chunk> chunks = new ArrayList<>();
     for (Block block : blockList()) {
@@ -128,7 +152,7 @@ public class Cuboid {
 
   public boolean isEmpty() {
     for (Block block : this.blockList()) {
-      if(block.getType() != Material.AIR) {
+      if (block.getType() != Material.AIR) {
         return false;
       }
     }
@@ -137,7 +161,7 @@ public class Cuboid {
 
   public boolean contains(final Material material) {
     for (Block block : this.blockList()) {
-      if(block.getType() == material) {
+      if (block.getType() == material) {
         return true;
       }
     }
@@ -146,6 +170,18 @@ public class Cuboid {
 
   public void fill(final Material material) {
     for (Block block : this.blockList()) {
+      block.setType(material);
+    }
+  }
+
+  public void fillWithoutFloor(final Material material) {
+    for (Block block : this.blockListWithoutFloor()) {
+      block.setType(material);
+    }
+  }
+
+  public void fillFloor(final Material material){
+    for (Block block : this.floorBlockList()) {
       block.setType(material);
     }
   }
