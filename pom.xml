@@ -7,7 +7,7 @@
     <groupId>pl.plajer</groupId>
     <artifactId>commons-box</artifactId>
     <packaging>pom</packaging>
-    <version>1.1.1</version>
+    <version>1.1.2</version>
     <modules>
         <module>Commons Box Classic</module>
         <module>Commons Box Database</module>
@@ -119,11 +119,11 @@
     <distributionManagement>
         <repository>
             <id>plajer-lair-repo</id>
-            <url>ftp://54.38.159.68</url>
+            <url>ftp://185.238.72.89</url>
         </repository>
         <site>
             <id>plajer-lair-java-docs</id>
-            <url>ftp://54.38.159.68</url>
+            <url>ftp://185.238.72.89</url>
         </site>
     </distributionManagement>
 
