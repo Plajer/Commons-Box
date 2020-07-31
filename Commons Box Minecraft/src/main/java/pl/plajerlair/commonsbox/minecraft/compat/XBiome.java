@@ -266,6 +266,7 @@ public enum XBiome {
    * Note that this doesn't send any update packets to the nearby clients.
    *
    * @param chunk the chunk to change the biome.
+   * @return CompletableFuture
    * @since 1.0.0
    */
   @Nonnull
@@ -296,6 +297,7 @@ public enum XBiome {
    *
    * @param start the start position.
    * @param end   the end position.
+   * @return CompletableFurture
    * @since 1.0.0
    */
   @Nonnull

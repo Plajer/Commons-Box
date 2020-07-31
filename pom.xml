@@ -77,10 +77,12 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <goals>
-                            <goal>aggregate</goal>
-                        </goals>
+                        <id>attach-javadoc</id>
                         <phase>deploy</phase>
+                        <goals>
+                            <goal>jar</goal>
+                            <goal>javadoc</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
@@ -110,20 +112,21 @@
         <extensions>
             <extension>
                 <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-ftp</artifactId>
-                <version>3.0.0</version>
+                <artifactId>wagon-ssh</artifactId>
+                <version>3.4.1</version>
             </extension>
         </extensions>
     </build>
 
     <distributionManagement>
         <repository>
-            <id>plajer-lair-repo</id>
-            <url>ftp://185.238.72.89</url>
+            <id>plugily-projects-repo</id>
+            <url>sftp://167.86.90.57/home/maven-repo-mc/maven</url>
         </repository>
         <site>
-            <id>plajer-lair-java-docs</id>
-            <url>ftp://185.238.72.89</url>
+            <id>plugily-projects-java-docs</id>
+            <name>MurderMystery</name>
+            <url>sftp://167.86.90.57/home/maven-javadocs-mc/jd/commons-box</url>
         </site>
     </distributionManagement>
 

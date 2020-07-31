@@ -105,13 +105,6 @@ public enum XMaterial {
   ACACIA_WALL_SIGN("WALL_SIGN"),
   ACACIA_WOOD("LOG_2"),
   ACTIVATOR_RAIL,
-  /**
-   * https://minecraft.gamepedia.com/Air
-   * {@link Material#isAir()}
-   *
-   * @see #VOID_AIR
-   * @see #CAVE_AIR
-   */
   AIR,
   ALLIUM(2, "RED_ROSE"),
   ANCIENT_DEBRIS("1.16"),
@@ -1422,7 +1415,7 @@ public enum XMaterial {
    * <blockquote>
    * {@link #supports(int) 13}}
    * </blockquote>
-   *
+   * <p>
    * @return true if 1.13 or higher.
    * @see #getVersion()
    * @see #supports(int)
@@ -1443,7 +1436,8 @@ public enum XMaterial {
    * <blockquote>
    * !{@link #supports(int)} 9
    * </blockquote>
-   *
+   * <p>
+   * @return boolean
    * @since 2.0.0
    */
   public static boolean isOneEight() {
@@ -1522,7 +1516,9 @@ public enum XMaterial {
   /**
    * Parses the given material name as an XMaterial with unspecified data value.
    *
+   * @param name
    * @see #matchXMaterialWithData(String)
+   * @return Optional
    * @since 2.0.0
    */
   @Nonnull
@@ -1568,9 +1564,11 @@ public enum XMaterial {
   /**
    * Parses the given material as an XMaterial.
    *
+   * @param material
    * @throws IllegalArgumentException may be thrown as an unexpected exception.
    * @see #matchDefinedXMaterial(String, byte)
    * @see #matchXMaterial(ItemStack)
+   * @return Material
    * @since 2.0.0
    */
   @Nonnull
@@ -1742,6 +1740,7 @@ public enum XMaterial {
   /**
    * Converts the enum names to a more friendly and readable string.
    *
+   * @param material
    * @return a formatted string.
    * @see #toWord(String)
    * @since 2.1.0
@@ -1905,6 +1904,7 @@ public enum XMaterial {
    *
    * @param item the item to change its type.
    * @see #parseItem()
+   * @return ItemStack
    * @since 3.0.0
    */
   @Nonnull
