@@ -20,7 +20,7 @@ import pl.plajerlair.commonsbox.minecraft.compat.XMaterial;
  */
 public class ItemUtils {
 
-  public static final ItemStack PLAYER_HEAD_ITEM = VersionResolver.isBefore1_13() ? new ItemStack(Material.SKULL_ITEM, 1, (short) 3) : XMaterial.PLAYER_HEAD.parseItem();
+  public static final ItemStack PLAYER_HEAD_ITEM = XMaterial.PLAYER_HEAD.parseItem();
 
   private ItemUtils() {
   }

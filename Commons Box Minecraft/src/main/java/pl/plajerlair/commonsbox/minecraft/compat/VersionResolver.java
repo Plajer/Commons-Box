@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
  * <p>
  * Created at 09.03.2019
  */
+@Deprecated
 public class VersionResolver {
 
   private VersionResolver() {
