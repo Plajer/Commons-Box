@@ -43,7 +43,6 @@ package pl.plajerlair.commonsbox.minecraft.compat;
  * FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-
 import com.google.common.base.Enums;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -83,7 +82,7 @@ import java.util.regex.PatternSyntaxException;
  * <b>/give @p minecraft:dirt 1 10</b> where 1 is the item amount, and 10 is the data value. The material {@link #DIRT} with a data value of {@code 10} doesn't exist.
  *
  * @author Crypto Morin
- * @version 8.0.0.1
+ * @version 8.2.0
  * @see Material
  * @see ItemStack
  */
@@ -107,7 +106,7 @@ public enum XMaterial {
   ACTIVATOR_RAIL,
   /**
    * https://minecraft.gamepedia.com/Air
-   *
+   * {@link Material#isAir()}
    *
    * @see #VOID_AIR
    * @see #CAVE_AIR
@@ -174,11 +173,11 @@ public enum XMaterial {
   BLACK_CONCRETE(15, "CONCRETE"),
   BLACK_CONCRETE_POWDER(15, "CONCRETE_POWDER"),
   BLACK_DYE(0, 14, "INK_SACK", "INK_SAC"),
-  BLACK_GLAZED_TERRACOTTA(15, 12, "HARD_CLAY", "STAINED_CLAY", "BLACK_TERRACOTTA"),
+  BLACK_GLAZED_TERRACOTTA(15, 12, "STAINED_CLAY", null),
   BLACK_SHULKER_BOX,
   BLACK_STAINED_GLASS(15, "STAINED_GLASS"),
   BLACK_STAINED_GLASS_PANE(15, "STAINED_GLASS_PANE"),
-  BLACK_TERRACOTTA(15, "HARD_CLAY", "STAINED_CLAY"),
+  BLACK_TERRACOTTA(15, "STAINED_CLAY"),
   BLACK_WALL_BANNER("WALL_BANNER"),
   BLACK_WOOL(15, "WOOL"),
   BLAST_FURNACE(0, 14, "FURNACE", null),
@@ -191,13 +190,13 @@ public enum XMaterial {
   BLUE_CONCRETE(11, "CONCRETE"),
   BLUE_CONCRETE_POWDER(11, "CONCRETE_POWDER"),
   BLUE_DYE(4, "INK_SACK", "LAPIS_LAZULI"),
-  BLUE_GLAZED_TERRACOTTA(11, 12, "HARD_CLAY", "STAINED_CLAY", "BLUE_TERRACOTTA"),
+  BLUE_GLAZED_TERRACOTTA(11, 12, "STAINED_CLAY", null),
   BLUE_ICE(0, 13, "PACKED_ICE", null),
   BLUE_ORCHID(1, "RED_ROSE"),
   BLUE_SHULKER_BOX,
   BLUE_STAINED_GLASS(11, "STAINED_GLASS"),
   BLUE_STAINED_GLASS_PANE(11, "THIN_GLASS", "STAINED_GLASS_PANE"),
-  BLUE_TERRACOTTA(11, "HARD_CLAY", "STAINED_CLAY"),
+  BLUE_TERRACOTTA(11, "STAINED_CLAY"),
   BLUE_WALL_BANNER(4, "WALL_BANNER"),
   BLUE_WOOL(11, "WOOL"),
   BONE,
@@ -224,7 +223,7 @@ public enum XMaterial {
   BROWN_CONCRETE(12, "CONCRETE"),
   BROWN_CONCRETE_POWDER(12, "CONCRETE_POWDER"),
   BROWN_DYE(3, "INK_SACK", "DYE", "COCOA_BEANS"),
-  BROWN_GLAZED_TERRACOTTA(12, 12, "HARD_CLAY", "STAINED_CLAY", "BROWN_TERRACOTTA"),
+  BROWN_GLAZED_TERRACOTTA(12, 12, "STAINED_CLAY", null),
   BROWN_MUSHROOM,
   BROWN_MUSHROOM_BLOCK("BROWN_MUSHROOM", "HUGE_MUSHROOM_1"),
   BROWN_SHULKER_BOX,
@@ -277,7 +276,7 @@ public enum XMaterial {
   CHORUS_FLOWER(0, 9),
   CHORUS_FRUIT(0, 9),
   CHORUS_PLANT(0, 9),
-  CLAY,
+  CLAY("HARD_CLAY"),
   CLAY_BALL,
   CLOCK("WATCH"),
   COAL,
@@ -353,11 +352,11 @@ public enum XMaterial {
   CYAN_CONCRETE(9, "CONCRETE"),
   CYAN_CONCRETE_POWDER(9, "CONCRETE_POWDER"),
   CYAN_DYE(6, "INK_SACK"),
-  CYAN_GLAZED_TERRACOTTA(9, 12, "HARD_CLAY", "STAINED_CLAY", "CYAN_TERRACOTTA"),
+  CYAN_GLAZED_TERRACOTTA(9, 12, "STAINED_CLAY", null),
   CYAN_SHULKER_BOX,
   CYAN_STAINED_GLASS(9, "STAINED_GLASS"),
   CYAN_STAINED_GLASS_PANE(9, "STAINED_GLASS_PANE"),
-  CYAN_TERRACOTTA(9, "HARD_CLAY", "STAINED_CLAY"),
+  CYAN_TERRACOTTA(9, "STAINED_CLAY"),
   CYAN_WALL_BANNER(6, "WALL_BANNER"),
   CYAN_WOOL(9, "WOOL"),
   DAMAGED_ANVIL(2, "ANVIL"),
@@ -531,11 +530,11 @@ public enum XMaterial {
   GRAY_CONCRETE(7, "CONCRETE"),
   GRAY_CONCRETE_POWDER(7, "CONCRETE_POWDER"),
   GRAY_DYE(8, "INK_SACK"),
-  GRAY_GLAZED_TERRACOTTA(7, 12, "HARD_CLAY", "STAINED_CLAY", "GRAY_TERRACOTTA"),
+  GRAY_GLAZED_TERRACOTTA(7, 12, "STAINED_CLAY", null),
   GRAY_SHULKER_BOX,
   GRAY_STAINED_GLASS(7, "STAINED_GLASS"),
   GRAY_STAINED_GLASS_PANE(7, "THIN_GLASS", "STAINED_GLASS_PANE"),
-  GRAY_TERRACOTTA(7, "HARD_CLAY", "STAINED_CLAY"),
+  GRAY_TERRACOTTA(7, "STAINED_CLAY"),
   GRAY_WALL_BANNER(8, "WALL_BANNER"),
   GRAY_WOOL(7, "WOOL"),
   GREEN_BANNER(2, "STANDING_BANNER", "BANNER"),
@@ -544,11 +543,11 @@ public enum XMaterial {
   GREEN_CONCRETE(13, "CONCRETE"),
   GREEN_CONCRETE_POWDER(13, "CONCRETE_POWDER"),
   GREEN_DYE(2, "INK_SACK", "CACTUS_GREEN"),
-  GREEN_GLAZED_TERRACOTTA(13, 12, "HARD_CLAY", "STAINED_CLAY", "GREEN_TERRACOTTA"),
+  GREEN_GLAZED_TERRACOTTA(13, 12, "STAINED_CLAY", null),
   GREEN_SHULKER_BOX,
   GREEN_STAINED_GLASS(13, "STAINED_GLASS"),
   GREEN_STAINED_GLASS_PANE(13, "THIN_GLASS", "STAINED_GLASS_PANE"),
-  GREEN_TERRACOTTA(13, "HARD_CLAY", "STAINED_CLAY"),
+  GREEN_TERRACOTTA(13, "STAINED_CLAY"),
   GREEN_WALL_BANNER(2, "WALL_BANNER"),
   GREEN_WOOL(13, "WOOL"),
   GRINDSTONE(0, 14, "ANVIL", null),
@@ -646,7 +645,7 @@ public enum XMaterial {
   LIGHT_BLUE_CONCRETE(3, "CONCRETE"),
   LIGHT_BLUE_CONCRETE_POWDER(3, "CONCRETE_POWDER"),
   LIGHT_BLUE_DYE(12, "INK_SACK"),
-  LIGHT_BLUE_GLAZED_TERRACOTTA(3, 12, "HARD_CLAY", "STAINED_CLAY", "LIGHT_BLUE_TERRACOTTA"),
+  LIGHT_BLUE_GLAZED_TERRACOTTA(3, 12, "STAINED_CLAY", null),
   LIGHT_BLUE_SHULKER_BOX,
   LIGHT_BLUE_STAINED_GLASS(3, "STAINED_GLASS"),
   LIGHT_BLUE_STAINED_GLASS_PANE(3, "THIN_GLASS", "STAINED_GLASS_PANE"),
@@ -663,11 +662,11 @@ public enum XMaterial {
    * Renamed to SILVER_GLAZED_TERRACOTTA in 1.12
    * Renamed to LIGHT_GRAY_GLAZED_TERRACOTTA in 1.14
    */
-  LIGHT_GRAY_GLAZED_TERRACOTTA(0, 12, "HARD_CLAY", "STAINED_CLAY", "LIGHT_GRAY_TERRACOTTA", "SILVER_GLAZED_TERRACOTTA"),
+  LIGHT_GRAY_GLAZED_TERRACOTTA(0, 12, "STAINED_CLAY", "LIGHT_GRAY_TERRACOTTA", "SILVER_GLAZED_TERRACOTTA"),
   LIGHT_GRAY_SHULKER_BOX("SILVER_SHULKER_BOX"),
   LIGHT_GRAY_STAINED_GLASS(8, "STAINED_GLASS"),
   LIGHT_GRAY_STAINED_GLASS_PANE(8, "THIN_GLASS", "STAINED_GLASS_PANE"),
-  LIGHT_GRAY_TERRACOTTA(8, "HARD_CLAY", "STAINED_CLAY"),
+  LIGHT_GRAY_TERRACOTTA(8, "STAINED_CLAY"),
   LIGHT_GRAY_WALL_BANNER(7, "WALL_BANNER"),
   LIGHT_GRAY_WOOL(8, "WOOL"),
   LIGHT_WEIGHTED_PRESSURE_PLATE("GOLD_PLATE"),
@@ -680,11 +679,11 @@ public enum XMaterial {
   LIME_CONCRETE(5, "CONCRETE"),
   LIME_CONCRETE_POWDER(5, "CONCRETE_POWDER"),
   LIME_DYE(10, "INK_SACK"),
-  LIME_GLAZED_TERRACOTTA(5, 12, "HARD_CLAY", "STAINED_CLAY", "LIME_TERRACOTTA"),
+  LIME_GLAZED_TERRACOTTA(5, 12, "STAINED_CLAY", null),
   LIME_SHULKER_BOX,
   LIME_STAINED_GLASS(5, "STAINED_GLASS"),
   LIME_STAINED_GLASS_PANE(5, "STAINED_GLASS_PANE"),
-  LIME_TERRACOTTA(5, "HARD_CLAY", "STAINED_CLAY"),
+  LIME_TERRACOTTA(5, "STAINED_CLAY"),
   LIME_WALL_BANNER(10, "WALL_BANNER"),
   LIME_WOOL(5, "WOOL"),
   LINGERING_POTION,
@@ -697,11 +696,11 @@ public enum XMaterial {
   MAGENTA_CONCRETE(2, "CONCRETE"),
   MAGENTA_CONCRETE_POWDER(2, "CONCRETE_POWDER"),
   MAGENTA_DYE(13, "INK_SACK"),
-  MAGENTA_GLAZED_TERRACOTTA(2, 12, "HARD_CLAY", "STAINED_CLAY", "MAGENTA_TERRACOTTA"),
+  MAGENTA_GLAZED_TERRACOTTA(2, 12, "STAINED_CLAY", null),
   MAGENTA_SHULKER_BOX,
   MAGENTA_STAINED_GLASS(2, "STAINED_GLASS"),
   MAGENTA_STAINED_GLASS_PANE(2, "THIN_GLASS", "STAINED_GLASS_PANE"),
-  MAGENTA_TERRACOTTA(2, "HARD_CLAY", "STAINED_CLAY"),
+  MAGENTA_TERRACOTTA(2, "STAINED_CLAY"),
   MAGENTA_WALL_BANNER(13, "WALL_BANNER"),
   MAGENTA_WOOL(2, "WOOL"),
   MAGMA_BLOCK(0, 10, "MAGMA"),
@@ -809,11 +808,11 @@ public enum XMaterial {
   ORANGE_CONCRETE(1, "CONCRETE"),
   ORANGE_CONCRETE_POWDER(1, "CONCRETE_POWDER"),
   ORANGE_DYE(14, "INK_SACK"),
-  ORANGE_GLAZED_TERRACOTTA(1, 12, "HARD_CLAY", "STAINED_CLAY", "ORANGE_TERRACOTTA"),
+  ORANGE_GLAZED_TERRACOTTA(1, 12, "STAINED_CLAY", null),
   ORANGE_SHULKER_BOX,
   ORANGE_STAINED_GLASS(1, "STAINED_GLASS"),
   ORANGE_STAINED_GLASS_PANE(1, "STAINED_GLASS_PANE"),
-  ORANGE_TERRACOTTA(1, "HARD_CLAY", "STAINED_CLAY"),
+  ORANGE_TERRACOTTA(1, "STAINED_CLAY"),
   ORANGE_TULIP(5, "RED_ROSE"),
   ORANGE_WALL_BANNER(14, "WALL_BANNER"),
   ORANGE_WOOL(1, "WOOL"),
@@ -838,11 +837,11 @@ public enum XMaterial {
   PINK_CONCRETE(6, "CONCRETE"),
   PINK_CONCRETE_POWDER(6, "CONCRETE_POWDER"),
   PINK_DYE(9, "INK_SACK"),
-  PINK_GLAZED_TERRACOTTA(6, 12, "HARD_CLAY", "STAINED_CLAY", "PINK_TERRACOTTA"),
+  PINK_GLAZED_TERRACOTTA(6, 12, "STAINED_CLAY", null),
   PINK_SHULKER_BOX,
   PINK_STAINED_GLASS(6, "STAINED_GLASS"),
   PINK_STAINED_GLASS_PANE(6, "THIN_GLASS", "STAINED_GLASS_PANE"),
-  PINK_TERRACOTTA(6, "HARD_CLAY", "STAINED_CLAY"),
+  PINK_TERRACOTTA(6, "STAINED_CLAY"),
   PINK_TULIP(7, "RED_ROSE"),
   PINK_WALL_BANNER(9, "WALL_BANNER"),
   PINK_WOOL(6, "WOOL"),
@@ -931,11 +930,11 @@ public enum XMaterial {
   PURPLE_CONCRETE(10, "CONCRETE"),
   PURPLE_CONCRETE_POWDER(10, "CONCRETE_POWDER"),
   PURPLE_DYE(5, "INK_SACK"),
-  PURPLE_GLAZED_TERRACOTTA(10, 12, "HARD_CLAY", "STAINED_CLAY", "PURPLE_TERRACOTTA"),
+  PURPLE_GLAZED_TERRACOTTA(10, 12, "STAINED_CLAY", null),
   PURPLE_SHULKER_BOX,
   PURPLE_STAINED_GLASS(10, "STAINED_GLASS"),
   PURPLE_STAINED_GLASS_PANE(10, "THIN_GLASS", "STAINED_GLASS_PANE"),
-  PURPLE_TERRACOTTA(10, "HARD_CLAY", "STAINED_CLAY"),
+  PURPLE_TERRACOTTA(10, "STAINED_CLAY"),
   PURPLE_WALL_BANNER(5, "WALL_BANNER"),
   PURPLE_WOOL(10, "WOOL"),
   PURPUR_BLOCK,
@@ -982,7 +981,7 @@ public enum XMaterial {
   RED_CONCRETE(14, "CONCRETE"),
   RED_CONCRETE_POWDER(14, "CONCRETE_POWDER"),
   RED_DYE(1, "INK_SACK", "ROSE_RED"),
-  RED_GLAZED_TERRACOTTA(14, 12, "HARD_CLAY", "STAINED_CLAY", "RED_TERRACOTTA"),
+  RED_GLAZED_TERRACOTTA(14, 12, "STAINED_CLAY", null),
   RED_MUSHROOM,
   RED_MUSHROOM_BLOCK("RED_MUSHROOM", "HUGE_MUSHROOM_2"),
   RED_NETHER_BRICKS("RED_NETHER_BRICK"),
@@ -997,7 +996,7 @@ public enum XMaterial {
   RED_SHULKER_BOX,
   RED_STAINED_GLASS(14, "STAINED_GLASS"),
   RED_STAINED_GLASS_PANE(14, "THIN_GLASS", "STAINED_GLASS_PANE"),
-  RED_TERRACOTTA(14, "HARD_CLAY", "STAINED_CLAY"),
+  RED_TERRACOTTA(14, "STAINED_CLAY"),
   RED_TULIP(4, "RED_ROSE"),
   RED_WALL_BANNER(1, "WALL_BANNER"),
   RED_WOOL(14, "WOOL"),
@@ -1137,7 +1136,7 @@ public enum XMaterial {
   TALL_GRASS(2, "DOUBLE_PLANT"),
   TALL_SEAGRASS(2, 13, "TALL_GRASS", null),
   TARGET(16),
-  TERRACOTTA("HARD_CLAY"),
+  TERRACOTTA("STAINED_CLAY"),
   TIPPED_ARROW(0, 9, "ARROW", null),
   TNT,
   TNT_MINECART("EXPLOSIVE_MINECART"),
@@ -1214,11 +1213,11 @@ public enum XMaterial {
   WHITE_CONCRETE("CONCRETE"),
   WHITE_CONCRETE_POWDER("CONCRETE_POWDER"),
   WHITE_DYE(15, 14, "INK_SACK", "BONE_MEAL"),
-  WHITE_GLAZED_TERRACOTTA(0, 12, "HARD_CLAY", "STAINED_CLAY"),
+  WHITE_GLAZED_TERRACOTTA(0, 12, "STAINED_CLAY"),
   WHITE_SHULKER_BOX,
   WHITE_STAINED_GLASS("STAINED_GLASS"),
   WHITE_STAINED_GLASS_PANE("THIN_GLASS", "STAINED_GLASS_PANE"),
-  WHITE_TERRACOTTA("HARD_CLAY", "STAINED_CLAY", "TERRACOTTA"),
+  WHITE_TERRACOTTA("STAINED_CLAY", "TERRACOTTA"),
   WHITE_TULIP(6, "RED_ROSE"),
   WHITE_WALL_BANNER(15, "WALL_BANNER"),
   WHITE_WOOL("WOOL"),
@@ -1241,11 +1240,11 @@ public enum XMaterial {
   YELLOW_CONCRETE(4, "CONCRETE"),
   YELLOW_CONCRETE_POWDER(4, "CONCRETE_POWDER"),
   YELLOW_DYE(11, "INK_SACK", "DANDELION_YELLOW"),
-  YELLOW_GLAZED_TERRACOTTA(4, 12, "HARD_CLAY", "STAINED_CLAY", "YELLOW_TERRACOTTA"),
+  YELLOW_GLAZED_TERRACOTTA(4, 12, "STAINED_CLAY", "YELLOW_TERRACOTTA"),
   YELLOW_SHULKER_BOX,
   YELLOW_STAINED_GLASS(4, "STAINED_GLASS"),
   YELLOW_STAINED_GLASS_PANE(4, "THIN_GLASS", "STAINED_GLASS_PANE"),
-  YELLOW_TERRACOTTA(4, "HARD_CLAY", "STAINED_CLAY"),
+  YELLOW_TERRACOTTA(4, "STAINED_CLAY"),
   YELLOW_WALL_BANNER(11, "WALL_BANNER"),
   YELLOW_WOOL(4, "WOOL"),
   ZOGLIN_SPAWN_EGG(16),
@@ -1260,7 +1259,6 @@ public enum XMaterial {
   /**
    * Cached array of {@link XMaterial#values()} to avoid allocating memory for
    * calling the method every time.
-   * This list is unmodifiable.
    *
    * @since 2.0.0
    */
@@ -1283,7 +1281,7 @@ public enum XMaterial {
    *
    * @since 3.0.0
    */
-  private static final EnumMap<XMaterial, XMaterial> DUPLICATED = new EnumMap<>(XMaterial.class);
+  private static final Map<XMaterial, XMaterial> DUPLICATED = new EnumMap<>(XMaterial.class);
   /**
    * Guava (Google Core Libraries for Java)'s cache for performance and timed caches.
    * For strings that match a certain XMaterial. Mostly cached for configs.
@@ -1335,8 +1333,7 @@ public enum XMaterial {
    */
   private static final boolean ISFLAT = supports(13);
   /**
-   * The maximum data value in the pre-flattening update which belongs to {@link #VILLAGER_SPAWN_EGG}
-   * with a data value of {@code 120}<br>
+   * The maximum data value in the pre-flattening update which belongs to {@link #VILLAGER_SPAWN_EGG}<br>
    * https://minecraftitemids.com/types/spawn-egg
    *
    * @see #matchXMaterialWithData(String)
@@ -1350,12 +1347,19 @@ public enum XMaterial {
    * @since 8.0.0
    */
   private static final byte UNKNOWN_DATA_VALUE = -1;
+  /**
+   * The maximum material ID before the pre-flattening update which belongs to {@link #MUSIC_DISC_WAIT}
+   *
+   * @since 8.1.0
+   */
+  private static final short MAX_ID = 2267;
 
   static {
     DUPLICATED.put(MELON, MELON_SLICE);
     DUPLICATED.put(CARROT, CARROTS);
     DUPLICATED.put(POTATO, POTATOES);
     DUPLICATED.put(BEETROOT, BEETROOTS);
+    DUPLICATED.put(GRASS, GRASS_BLOCK);
     DUPLICATED.put(BROWN_MUSHROOM, BROWN_MUSHROOM_BLOCK);
     DUPLICATED.put(BRICK, BRICKS);
     DUPLICATED.put(NETHER_BRICK, NETHER_BRICKS);
@@ -1371,6 +1375,7 @@ public enum XMaterial {
     DUPLICATED.put(BIRCH_DOOR, BIRCH_DOOR);
     DUPLICATED.put(JUNGLE_DOOR, JUNGLE_DOOR);
     DUPLICATED.put(SPRUCE_DOOR, SPRUCE_DOOR);
+
     DUPLICATED.put(CAULDRON, CAULDRON);
     DUPLICATED.put(BREWING_STAND, BREWING_STAND);
     DUPLICATED.put(FLOWER_POT, FLOWER_POT);
@@ -1382,12 +1387,13 @@ public enum XMaterial {
 
   /**
    * The data value of this material https://minecraft.gamepedia.com/Java_Edition_data_values/Pre-flattening
+   * It's never a negative number.
    *
    * @see #getData()
    */
   private final byte data;
   /**
-   * The version that this material was added in.
+   * The version that this material was added in, otherwise 0 if the version is not recorded.
    *
    * @since 7.0.0
    */
@@ -1472,7 +1478,7 @@ public enum XMaterial {
   /**
    * The current version of the server.
    *
-   * @return the current server version or 0.0 if unknown.
+   * @return the current server version minor number.
    * @see #isNewVersion()
    * @since 2.0.0
    */
@@ -1514,8 +1520,7 @@ public enum XMaterial {
   public static Optional<XMaterial> matchXMaterial(@Nonnull String name) {
     Validate.notEmpty(name, "Cannot match a material with null or empty material name");
     Optional<XMaterial> oldMatch = matchXMaterialWithData(name);
-    if (oldMatch.isPresent()) return oldMatch;
-    return matchDefinedXMaterial(format(name), UNKNOWN_DATA_VALUE);
+    return oldMatch.isPresent() ? oldMatch : matchDefinedXMaterial(format(name), UNKNOWN_DATA_VALUE);
   }
 
   /**
@@ -1539,7 +1544,6 @@ public enum XMaterial {
     int index = name.indexOf(':');
     if (index != -1) {
       String mat = format(name.substring(0, index));
-
       try {
         // We don't use Byte.parseByte because we have our own range check.
         byte data = (byte) Integer.parseInt(StringUtils.deleteWhitespace(name.substring(index + 1)));
@@ -1599,19 +1603,14 @@ public enum XMaterial {
    * @see #matchXMaterial(ItemStack)
    * @since 3.0.0
    */
-  @SuppressWarnings("OptionalAssignedToNull")
   @Nonnull
   private static Optional<XMaterial> matchDefinedXMaterial(@Nonnull String name, byte data) {
+    // if (!Boolean.valueOf(Boolean.getBoolean(Boolean.TRUE.toString())).equals(Boolean.FALSE.booleanValue())) return null;
     Boolean duplicated = null;
 
     // Do basic number and boolean checks before accessing more complex enum stuff.
-    // Maybe we can simplify (ISFLAT || !duplicated) with the (!ISFLAT && duplicated) under it to save a few nanoseconds?
-    // if (!Boolean.valueOf(Boolean.getBoolean(Boolean.TRUE.toString())).equals(Boolean.FALSE.booleanValue())) return null;
-    Optional<XMaterial> xMaterial = null;
     if (data <= 0 && (ISFLAT || !(duplicated = isDuplicated(name)))) {
-      // Apparently the transform method is more efficient than toJavaUtil()
-      // toJavaUtil isn't even supported in older versions.
-      xMaterial = getIfPresent(name);
+      Optional<XMaterial> xMaterial = getIfPresent(name);
       if (xMaterial.isPresent()) return xMaterial;
     }
 
@@ -1622,17 +1621,16 @@ public enum XMaterial {
     XMaterial oldXMaterial = requestOldXMaterial(name, data);
     if (oldXMaterial == null) {
       // Special case. Refer to FILLED_MAP for more info.
-      if (data > 0 && name.endsWith("MAP")) return Optional.of(FILLED_MAP);
-      return Optional.empty();
+      return data > 0 && name.endsWith("MAP") ? Optional.of(FILLED_MAP) : Optional.empty();
     }
 
     if (!ISFLAT && oldXMaterial.isPlural() && (duplicated == null ? isDuplicated(name) : duplicated)) {
       // A solution for XMaterial Paradox.
       // Manually parses the duplicated materials to find the exact material based on the server version.
       // If ends with "S" -> Plural Form Material
-      return xMaterial == null ? getIfPresent(name) : xMaterial;
+      return getIfPresent(name);
     }
-    return Optional.ofNullable(oldXMaterial);
+    return Optional.of(oldXMaterial);
   }
 
   /**
@@ -1664,12 +1662,14 @@ public enum XMaterial {
    * @return a parsed XMaterial with the same ID and data value.
    * @see #matchXMaterial(ItemStack)
    * @since 2.0.0
+   * @deprecated this method loops through all the available materials and matches their ID using {@link #getId()}
+   * which takes a really long time. Plugins should no longer support IDs. If you want, you can make a {@link Map} cache yourself.
+   * This method obviously doesn't work for 1.13+ and will not be supported. This is only here for debugging purposes.
    */
   @Nonnull
+  @Deprecated
   public static Optional<XMaterial> matchXMaterial(int id, byte data) {
-    if (id < 0 || data < 0) return Optional.empty();
-
-    // Looping through Material.values() will take longer.
+    if (id < 0 || id > MAX_ID || data < 0) return Optional.empty();
     for (XMaterial materials : VALUES) {
       if (materials.data == data && materials.getId() == id) return Optional.of(materials);
     }
@@ -1847,7 +1847,7 @@ public enum XMaterial {
   public ItemStack setType(@Nonnull ItemStack item) {
     Objects.requireNonNull(item, "Cannot set material for null ItemStack");
     Material material = this.parseMaterial();
-    Objects.requireNonNull(material, "Unsupported material: " + this.name());
+    Objects.requireNonNull(material, () -> "Unsupported material: " + this.name());
 
     item.setType(material);
     if (!ISFLAT && material.getMaxDurability() <= 0) item.setDurability(this.data);
@@ -1863,7 +1863,8 @@ public enum XMaterial {
    * @since 2.0.0
    */
   private boolean anyMatchLegacy(@Nonnull String name) {
-    for (String legacy : this.legacy) {
+    for (int i = this.legacy.length - 1; i >= 0; i--) {
+      String legacy = this.legacy[i];
       if (legacy == null) return false; // Left-side suggestion list
       if (name.equals(legacy)) return true;
     }
@@ -1902,7 +1903,9 @@ public enum XMaterial {
   public int getId() {
     if (this.data != 0 || this.version >= 13) return -1;
     Material material = this.parseMaterial();
-    return material == null ? -1 : material.getId();
+    if (material == null) return -1;
+    if (ISFLAT && !material.isLegacy()) return -1;
+    return material.getId();
   }
 
   /**
@@ -2005,8 +2008,7 @@ public enum XMaterial {
       if (mat == null) mat = requestOldMaterial(suggest);
     }
 
-    Optional<Material> opt = Optional.ofNullable(mat);
-    PARSED_CACHE.put(this, opt);
+    PARSED_CACHE.put(this, Optional.ofNullable(mat));
     return mat;
   }
 
@@ -2063,7 +2065,7 @@ public enum XMaterial {
   @Nonnull
   public List<String> getSuggestions() {
     if (this.legacy.length == 0 || this.version == 0) return new ArrayList<>();
-    List<String> suggestions = new ArrayList<>();
+    List<String> suggestions = new ArrayList<>(this.legacy.length);
     for (String legacy : this.legacy) {
       if (legacy == null) break;
       suggestions.add(legacy);
@@ -2083,10 +2085,7 @@ public enum XMaterial {
    */
   public boolean isSupported() {
     if (this.version != 0) return supports(this.version);
-
-    Material material = Material.getMaterial(this.name());
-    if (material != null) return true;
-    return requestOldMaterial(false) != null;
+    return Material.getMaterial(this.name()) != null || requestOldMaterial(false) != null;
   }
 
   /**
