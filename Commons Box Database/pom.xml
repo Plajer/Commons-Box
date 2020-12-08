@@ -5,24 +5,24 @@
     <parent>
         <artifactId>commons-box</artifactId>
         <groupId>pl.plajer</groupId>
-        <version>1.1.7</version>
+        <version>1.1.8</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>commons-box-database</artifactId>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.6</version>
-            <scope>provided</scope>
+            <version>8.0.22</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.zaxxer/HikariCP -->
         <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
-            <version>3.3.1</version>
-            <scope>compile</scope>
+            <version>3.4.5</version>
         </dependency>
     </dependencies>
 
