@@ -7,7 +7,7 @@
     <groupId>pl.plajer</groupId>
     <artifactId>commons-box</artifactId>
     <packaging>pom</packaging>
-    <version>1.1.8</version>
+    <version>1.1.9</version>
     <modules>
         <module>Commons Box Classic</module>
         <module>Commons Box Database</module>
@@ -111,12 +111,12 @@
     <distributionManagement>
         <repository>
             <id>plugily-projects-repo</id>
-            <url>ftp://plugily.xyz</url>
+            <url>ftp://46.249.204.191</url>
         </repository>
         <site>
             <id>plugily-projects-java-docs</id>
-            <name>MurderMystery</name>
-            <url>ftp://plugily.xyz</url>
+            <name>Commons-Box</name>
+            <url>ftp://46.249.204.191</url>
         </site>
     </distributionManagement>
 
