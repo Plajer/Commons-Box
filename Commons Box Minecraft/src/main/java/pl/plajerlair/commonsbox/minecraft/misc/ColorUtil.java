@@ -6,7 +6,11 @@ import org.bukkit.Color;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
-
+/**
+ * @author Tigerpanzer_02
+ * <p>
+ * Created at 26.12.2020
+ */
 public class ColorUtil {
   private static final Map<ChatColor, ColorSet> colorMap = new HashMap<>();
 
