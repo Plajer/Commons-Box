@@ -36,7 +36,7 @@ public class MigratorUtils {
       FileUtils.writeLines(file, updatedLines, false);
     } catch (IOException e) {
       e.printStackTrace();
-      Bukkit.getLogger().warning("[CommonsBox] Something went horribly wrong with migration! Please contact Plajer!");
+      Bukkit.getLogger().warning("[CommonsBox] Something went horribly wrong with migration! Please contact Plugily Projects!");
     }
   }
 
@@ -77,7 +77,7 @@ public class MigratorUtils {
       fw.close();
     } catch (IOException e) {
       e.printStackTrace();
-      Bukkit.getLogger().warning("[CommonsBox] Something went horribly wrong with migration! Please contact Plajer!");
+      Bukkit.getLogger().warning("[CommonsBox] Something went horribly wrong with migration! Please contact Plugily Projects!");
     }
   }
 
