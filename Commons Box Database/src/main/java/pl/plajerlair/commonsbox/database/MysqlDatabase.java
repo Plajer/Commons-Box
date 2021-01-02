@@ -111,13 +111,12 @@ public class MysqlDatabase {
   }
 
   public Connection getConnection() {
-    Connection conn = null;
     try {
-      conn = hikariDataSource.getConnection();
+      return hikariDataSource.getConnection();
     } catch (Exception e) {
       e.printStackTrace();
     }
-    return conn;
+    return null;
   }
 
 }

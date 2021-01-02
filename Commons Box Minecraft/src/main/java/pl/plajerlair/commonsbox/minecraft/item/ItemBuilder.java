@@ -22,20 +22,20 @@ public class ItemBuilder {
   private final ItemStack itemStack;
 
   public ItemBuilder(final ItemStack itemStack) {
-    this.itemStack = itemStack;
+    this.itemStack = itemStack == null ? new ItemStack(Material.STONE) : itemStack;
   }
 
   public ItemBuilder(final Material material) {
-    this.itemStack = new ItemStack(material);
+    this.itemStack = new ItemStack(material == null ? Material.STONE : material);
   }
 
   public ItemBuilder type(Material material) {
-    this.itemStack.setType(material);
+    this.itemStack.setType(material == null ? Material.STONE : material);
     return this;
   }
 
   public ItemBuilder amount(int amount) {
-    this.itemStack.setAmount(amount);
+    this.itemStack.setAmount(amount < 1 ? 1 : amount);
     return this;
   }
 
@@ -46,8 +46,10 @@ public class ItemBuilder {
 
   public ItemBuilder name(final String name) {
     final ItemMeta meta = itemStack.getItemMeta();
-    meta.setDisplayName(name);
-    itemStack.setItemMeta(meta);
+    if (meta != null) {
+      meta.setDisplayName(name == null ? "" : name);
+      itemStack.setItemMeta(meta);
+    }
     return this;
   }
 
@@ -67,23 +69,26 @@ public class ItemBuilder {
 
   public ItemBuilder lore(final List<String> name) {
     final ItemMeta meta = itemStack.getItemMeta();
-    List<String> lore = meta.getLore();
-    if (lore == null) {
-      lore = new ArrayList<>();
+    if (meta != null) {
+      List<String> lore = meta.hasLore() ? meta.getLore() : new ArrayList<>();
+      if (name != null) {
+        lore.addAll(name);
+      }
+      meta.setLore(lore);
+      itemStack.setItemMeta(meta);
     }
-    lore.addAll(name);
-    meta.setLore(lore);
-    itemStack.setItemMeta(meta);
     return this;
   }
 
   public ItemBuilder colorizeItem() {
-    ItemMeta meta = this.itemStack.getItemMeta();
-    if(meta.hasDisplayName()) {
-      meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', meta.getDisplayName()));
-    }
-    if(meta.hasLore()) {
-      meta.setLore(meta.getLore().stream().map(line -> ChatColor.translateAlternateColorCodes('&', line)).collect(Collectors.toList()));
+    ItemMeta meta = itemStack.getItemMeta();
+    if (meta != null) {
+      if (meta.hasDisplayName()) {
+        meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', meta.getDisplayName()));
+      }
+      if (meta.hasLore()) {
+        meta.setLore(meta.getLore().stream().map(line -> ChatColor.translateAlternateColorCodes('&', line)).collect(Collectors.toList()));
+      }
     }
     return this;
   }

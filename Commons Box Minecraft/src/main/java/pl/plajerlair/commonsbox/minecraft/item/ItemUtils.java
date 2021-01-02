@@ -32,10 +32,7 @@ public class ItemUtils {
    * @return true if named, false otherwise
    */
   public static boolean isItemStackNamed(ItemStack stack) {
-    if (stack == null) {
-      return false;
-    }
-    return stack.hasItemMeta() && stack.getItemMeta().hasDisplayName();
+    return stack != null && stack.hasItemMeta() && stack.getItemMeta().hasDisplayName();
   }
 
   public static ItemStack getSkull(String url) {

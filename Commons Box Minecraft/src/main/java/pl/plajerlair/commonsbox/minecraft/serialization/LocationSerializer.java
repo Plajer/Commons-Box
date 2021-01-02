@@ -28,9 +28,7 @@ public class LocationSerializer {
    * @param fileName file name
    * @param path     path where location will be saved
    * @param loc      location to save
-   * @deprecated api subject to change
    */
-  @Deprecated
   public static void saveLoc(JavaPlugin plugin, FileConfiguration file, String fileName, String path, Location loc) {
     String location = loc.getWorld().getName() + "," + loc.getX() + "," + loc.getY() + "," + loc.getZ() + "," + loc.getYaw() + "," + loc.getPitch();
     file.set(path, location);

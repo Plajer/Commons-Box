@@ -82,7 +82,7 @@ public class MiscUtils {
    * @param message message content to send
    */
   public static void sendCenteredMessage(Player player, String message) {
-    if (message == null || message.equals("")) {
+    if (message == null || message.isEmpty()) {
       player.sendMessage("");
       return;
     }
@@ -104,14 +104,11 @@ public class MiscUtils {
         messagePxSize++;
       }
     }
-    int CENTER_PX = 154;
-    int halvedMessageSize = messagePxSize / 2;
-    int toCompensate = CENTER_PX - halvedMessageSize;
-    int spaceLength = DefaultFontInfo.SPACE.getLength() + 1;
-    int compensated = 0;
+    int CENTER_PX = 154, halvedMessageSize = messagePxSize / 2, toCompensate = CENTER_PX - halvedMessageSize,
+      spaceLength = DefaultFontInfo.SPACE.getLength() + 1, compensated = 0;
     StringBuilder sb = new StringBuilder();
     while (compensated < toCompensate) {
-      sb.append(" ");
+      sb.append(' ');
       compensated += spaceLength;
     }
     player.sendMessage(sb.toString() + message);
