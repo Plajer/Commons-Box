@@ -41,8 +41,7 @@ public class WeaponHelper {
   }
 
   public static ItemStack getEnchantedBow(Enchantment[] enchantments, int[] levels) {
-    ItemStack itemStack = new ItemStack(Material.BOW);
-    return getEnchanted(itemStack, enchantments, levels);
+    return getEnchanted(new ItemStack(Material.BOW), enchantments, levels);
   }
 
   public static ItemStack getEnchanted(ItemStack itemStack, Enchantment[] enchantments, int[] levels) {

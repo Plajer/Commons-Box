@@ -1,5 +1,6 @@
 package pl.plajerlair.commonsbox.minecraft.misc;
 
+import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 import java.util.regex.Matcher;
@@ -12,12 +13,19 @@ import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Particle.DustOptions;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.FireworkMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import pl.plajerlair.commonsbox.minecraft.compat.ServerVersion.Version;
 
@@ -98,6 +106,45 @@ public class MiscUtils {
     } else {
       loc.getWorld().spawnParticle(particle, loc, count, offsetX, offsetY, offsetZ, extra);
     }
+  }
+
+  public static void setDurability(ItemStack item, short durability) {
+    if (Version.isCurrentEqualOrHigher(Version.v1_13_R1)) {
+      ItemMeta meta = item.getItemMeta();
+      if (meta != null) {
+        ((Damageable) meta).setDamage(durability);
+      }
+    } else {
+      item.setDurability(durability);
+    }
+  }
+
+  public static void hidePlayer(JavaPlugin plugin, Player to, Player p) {
+    if (Version.isCurrentEqualOrHigher(Version.v1_13_R1)) {
+      to.hidePlayer(plugin, p);
+    } else {
+      to.hidePlayer(p);
+    }
+  }
+
+  public static void showPlayer(JavaPlugin plugin, Player to, Player p) {
+    if (Version.isCurrentEqualOrHigher(Version.v1_13_R1)) {
+      to.showPlayer(plugin, p);
+    } else {
+      to.showPlayer(p);
+    }
+  }
+
+  public static void setPassenger(Entity to, Entity... passengers) {
+    // setPassenger is for 1.9 and less versions
+
+    for (Entity ps : passengers) {
+      to.addPassenger(ps);
+    }
+  }
+
+  public static Optional<AttributeInstance> getEntityAttribute(LivingEntity entity, Attribute attribute) {
+    return Optional.ofNullable(entity.getAttribute(attribute));
   }
 
   /**
