@@ -7,7 +7,7 @@
     <groupId>pl.plajer</groupId>
     <artifactId>commons-box</artifactId>
     <packaging>pom</packaging>
-    <version>1.2.1</version>
+    <version>1.2.2</version>
     <modules>
         <module>Commons Box Classic</module>
         <module>Commons Box Database</module>
@@ -16,7 +16,7 @@
 
     <name>Commons Box</name>
     <description>Library with common utilities needed for Java development</description>
-    <url>https://plajer.xyz</url>
+    <url>https://plugily.xyz</url>
 
     <properties>
         <java.version>1.8</java.version>
