@@ -26,12 +26,12 @@ public class ServerVersion {
 		private Integer value;
 		private String shortVersion;
 		private String packageVersion;
-		private static Version current = null;
+		private static Version current;
 
 		Version() {
 			value = Integer.valueOf(name().replaceAll("[^\\d.]", ""));
 			shortVersion = name().substring(0, name().length() - 3);
-			packageVersion = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
+			packageVersion = Bukkit.getServer().getClass().getPackage().getName().replace('.', ',').split(",")[3];
 		}
 
 		public Integer getValue() {

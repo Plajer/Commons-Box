@@ -1,26 +1,150 @@
 package pl.plajerlair.commonsbox.minecraft.misc;
 
+import java.util.Optional;
 import java.util.Random;
+import java.util.concurrent.CompletableFuture;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
+import org.bukkit.Particle;
+import org.bukkit.Particle.DustOptions;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.FireworkMeta;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import pl.plajerlair.commonsbox.minecraft.compat.ServerVersion.Version;
 
 /**
  * @author Plajer
  * <p>
  * Created at 09.03.2019
  */
+@SuppressWarnings("deprecation")
 public class MiscUtils {
 
   private static Random random = new Random();
 
   private MiscUtils() {
+  }
+
+  public static String matchColorRegex(String s) {
+    if (Version.isCurrentLower(Version.v1_16_R1)) {
+      return s;
+    }
+
+      String regex = "&?#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})";
+      Matcher matcher = Pattern.compile(regex).matcher(s);
+      while (matcher.find()) {
+        String group = matcher.group(0);
+        String group2 = matcher.group(1);
+
+        try {
+          s = s.replace(group, net.md_5.bungee.api.ChatColor.of("#" + group2) + "");
+        } catch (Exception e) {
+          System.err.println("Bad hex color match: " + group);
+        }
+      }
+
+      return s;
+  }
+
+  public static SkullMeta setPlayerHead(Player player, SkullMeta meta) {
+      if (Version.isCurrentEqualOrHigher(Version.v1_12_R1) && Bukkit.getServer().getVersion().contains("Paper")
+          && player.getPlayerProfile().hasTextures()) {
+        return CompletableFuture.supplyAsync(() -> {
+          meta.setPlayerProfile(player.getPlayerProfile());
+          return meta;
+        }).exceptionally(e -> {
+          System.err.println("Retrieving player profile of " + player.getName() + " failed!");
+          return meta;
+        }).join();
+      }
+
+      if (Version.isCurrentHigher(Version.v1_12_R1)) {
+        meta.setOwningPlayer(player);
+      } else {
+        meta.setOwner(player.getName());
+      }
+      return meta;
+    }
+
+  public static void sendActionBar(Player player, String message) {
+    if (Version.isCurrentEqualOrHigher(Version.v1_16_R3)) {
+      player.spigot().sendMessage(net.md_5.bungee.api.ChatMessageType.ACTION_BAR,
+        player.getUniqueId(), new net.md_5.bungee.api.chat.ComponentBuilder(message).create());
+    } else {
+      player.spigot().sendMessage(net.md_5.bungee.api.ChatMessageType.ACTION_BAR,
+        new net.md_5.bungee.api.chat.ComponentBuilder(message).create());
+    }
+  }
+
+  // https://www.spigotmc.org/threads/comprehensive-particle-spawning-guide-1-13.343001/
+  public static void spawnParticle(Particle particle, Location loc, int count, double offsetX, double offsetY, double offsetZ, double extra) {
+    if (Version.isCurrentEqualOrHigher(Version.v1_13_R2) && particle == Particle.REDSTONE) {
+      DustOptions dustOptions = new DustOptions(Color.RED, 2);
+      loc.getWorld().spawnParticle(particle, loc, count, offsetX, offsetY, offsetZ, extra, dustOptions);
+    } else if (particle == Particle.ITEM_CRACK) {
+      ItemStack itemCrackData = new ItemStack(loc.getBlock().getType());
+      loc.getWorld().spawnParticle(particle, loc, count, offsetX, offsetY, offsetZ, extra, itemCrackData);
+    } else if (particle == Particle.BLOCK_CRACK || particle == Particle.BLOCK_DUST || particle == Particle.FALLING_DUST) {
+      loc.getWorld().spawnParticle(particle, loc, count, offsetX, offsetY, offsetZ, extra, loc.getBlock().getType().createBlockData());
+    } else {
+      loc.getWorld().spawnParticle(particle, loc, count, offsetX, offsetY, offsetZ, extra);
+    }
+  }
+
+  public static void setDurability(ItemStack item, short durability) {
+    if (Version.isCurrentEqualOrHigher(Version.v1_13_R1)) {
+      ItemMeta meta = item.getItemMeta();
+      if (meta != null) {
+        ((Damageable) meta).setDamage(durability);
+      }
+    } else {
+      item.setDurability(durability);
+    }
+  }
+
+  public static void hidePlayer(JavaPlugin plugin, Player to, Player p) {
+    if (Version.isCurrentEqualOrHigher(Version.v1_13_R1)) {
+      to.hidePlayer(plugin, p);
+    } else {
+      to.hidePlayer(p);
+    }
+  }
+
+  public static void showPlayer(JavaPlugin plugin, Player to, Player p) {
+    if (Version.isCurrentEqualOrHigher(Version.v1_13_R1)) {
+      to.showPlayer(plugin, p);
+    } else {
+      to.showPlayer(p);
+    }
+  }
+
+  public static void setPassenger(Entity to, Entity... passengers) {
+    // setPassenger is for 1.9 and less versions
+
+    for (Entity ps : passengers) {
+      to.addPassenger(ps);
+    }
+  }
+
+  public static Optional<AttributeInstance> getEntityAttribute(LivingEntity entity, Attribute attribute) {
+    return Optional.ofNullable(entity.getAttribute(attribute));
   }
 
   /**
@@ -82,7 +206,7 @@ public class MiscUtils {
    * @param message message content to send
    */
   public static void sendCenteredMessage(Player player, String message) {
-    if (message == null || message.equals("")) {
+    if (message == null || message.isEmpty()) {
       player.sendMessage("");
       return;
     }
@@ -104,14 +228,11 @@ public class MiscUtils {
         messagePxSize++;
       }
     }
-    int CENTER_PX = 154;
-    int halvedMessageSize = messagePxSize / 2;
-    int toCompensate = CENTER_PX - halvedMessageSize;
-    int spaceLength = DefaultFontInfo.SPACE.getLength() + 1;
-    int compensated = 0;
+    int halvedMessageSize = messagePxSize / 2, toCompensate = 154 - halvedMessageSize,
+      spaceLength = DefaultFontInfo.SPACE.getLength() + 1, compensated = 0;
     StringBuilder sb = new StringBuilder();
     while (compensated < toCompensate) {
-      sb.append(" ");
+      sb.append(' ');
       compensated += spaceLength;
     }
     player.sendMessage(sb.toString() + message);

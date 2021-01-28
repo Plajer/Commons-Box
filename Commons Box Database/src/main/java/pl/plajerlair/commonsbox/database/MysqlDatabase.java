@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 public class MysqlDatabase {
 
   private HikariDataSource hikariDataSource;
-  private Logger databaseLogger = Logger.getLogger("CommonsBox Database");
+  private final Logger databaseLogger = Logger.getLogger("CommonsBox Database");
 
   public MysqlDatabase(String user, String password, String jdbcUrl) {
     databaseLogger.log(Level.INFO, "Configuring MySQL connection!");
@@ -111,13 +111,12 @@ public class MysqlDatabase {
   }
 
   public Connection getConnection() {
-    Connection conn = null;
     try {
-      conn = hikariDataSource.getConnection();
+      return hikariDataSource.getConnection();
     } catch (Exception e) {
       e.printStackTrace();
     }
-    return conn;
+    return null;
   }
 
 }

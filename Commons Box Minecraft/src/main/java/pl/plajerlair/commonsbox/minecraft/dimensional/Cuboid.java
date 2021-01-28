@@ -14,42 +14,32 @@ import org.bukkit.entity.Player;
 
 public class Cuboid {
 
-  private final int xMin;
-  private final int xMax;
-  private final int yMin;
-  private final int yMax;
-  private final int zMin;
-  private final int zMax;
-  private final double xMinCentered;
-  private final double xMaxCentered;
-  private final double yMinCentered;
-  private final double yMaxCentered;
-  private final double zMinCentered;
-  private final double zMaxCentered;
+  private final int xMin, xMax, yMin, yMax, zMin, zMax;
+  private final double xMinCentered, xMaxCentered, yMinCentered, yMaxCentered, zMinCentered, zMaxCentered;
   private final World world;
 
   public Cuboid(final Location point1, final Location point2) {
-    this.xMin = Math.min(point1.getBlockX(), point2.getBlockX());
-    this.xMax = Math.max(point1.getBlockX(), point2.getBlockX());
-    this.yMin = Math.min(point1.getBlockY(), point2.getBlockY());
-    this.yMax = Math.max(point1.getBlockY(), point2.getBlockY());
-    this.zMin = Math.min(point1.getBlockZ(), point2.getBlockZ());
-    this.zMax = Math.max(point1.getBlockZ(), point2.getBlockZ());
-    this.world = point1.getWorld();
-    this.xMinCentered = this.xMin + 0.5;
-    this.xMaxCentered = this.xMax + 0.5;
-    this.yMinCentered = this.yMin + 0.5;
-    this.yMaxCentered = this.yMax + 0.5;
-    this.zMinCentered = this.zMin + 0.5;
-    this.zMaxCentered = this.zMax + 0.5;
+    xMin = Math.min(point1.getBlockX(), point2.getBlockX());
+    xMax = Math.max(point1.getBlockX(), point2.getBlockX());
+    yMin = Math.min(point1.getBlockY(), point2.getBlockY());
+    yMax = Math.max(point1.getBlockY(), point2.getBlockY());
+    zMin = Math.min(point1.getBlockZ(), point2.getBlockZ());
+    zMax = Math.max(point1.getBlockZ(), point2.getBlockZ());
+    world = point1.getWorld();
+    xMinCentered = xMin + 0.5;
+    xMaxCentered = xMax + 0.5;
+    yMinCentered = yMin + 0.5;
+    yMaxCentered = yMax + 0.5;
+    zMinCentered = zMin + 0.5;
+    zMaxCentered = zMax + 0.5;
   }
 
   public List<Block> blockList() {
-    final List<Block> bL = new ArrayList<>(this.getTotalBlockSize());
-    for (int x = this.xMin; x <= this.xMax; ++x) {
-      for (int y = this.yMin; y <= this.yMax; ++y) {
-        for (int z = this.zMin; z <= this.zMax; ++z) {
-          final Block b = this.world.getBlockAt(x, y, z);
+    final List<Block> bL = new ArrayList<>(getTotalBlockSize());
+    for (int x = xMin; x <= xMax; ++x) {
+      for (int y = yMin; y <= yMax; ++y) {
+        for (int z = zMin; z <= zMax; ++z) {
+          final Block b = world.getBlockAt(x, y, z);
           bL.add(b);
         }
       }
@@ -58,11 +48,11 @@ public class Cuboid {
   }
 
   public List<Block> blockListWithoutFloor() {
-    final List<Block> bL = new ArrayList<>(this.getTotalBlockSize() - (this.getXWidth() * this.getZWidth()));
-    for (int x = this.xMin; x <= this.xMax; ++x) {
-      for (int y = this.yMin + 1; y <= this.yMax; ++y) {
-        for (int z = this.zMin; z <= this.zMax; ++z) {
-          final Block b = this.world.getBlockAt(x, y, z);
+    final List<Block> bL = new ArrayList<>(getTotalBlockSize() - (getXWidth() * getZWidth()));
+    for (int x = xMin; x <= xMax; ++x) {
+      for (int y = yMin + 1; y <= yMax; ++y) {
+        for (int z = zMin; z <= zMax; ++z) {
+          final Block b = world.getBlockAt(x, y, z);
           bL.add(b);
         }
       }
@@ -71,10 +61,10 @@ public class Cuboid {
   }
 
   public List<Block> floorBlockList() {
-    final List<Block> bL = new ArrayList<>(this.getXWidth() * this.getZWidth());
-    for (int x = this.xMin; x <= this.xMax; ++x) {
-      for (int z = this.zMin; z <= this.zMax; ++z) {
-        final Block b = this.world.getBlockAt(x, this.yMin, z);
+    final List<Block> bL = new ArrayList<>(getXWidth() * getZWidth());
+    for (int x = xMin; x <= xMax; ++x) {
+      for (int z = zMin; z <= zMax; ++z) {
+        final Block b = world.getBlockAt(x, yMin, z);
         bL.add(b);
       }
     }
@@ -84,74 +74,73 @@ public class Cuboid {
   public List<Chunk> chunkList() {
     final List<Chunk> chunks = new ArrayList<>();
     for (Block block : blockList()) {
-      if (chunks.contains(block.getChunk())) {
-        continue;
+      if (!chunks.contains(block.getChunk())) {
+        chunks.add(block.getChunk());
       }
-      chunks.add(block.getChunk());
     }
     return chunks;
   }
 
   public Location getCenter() {
-    return new Location(this.world, (this.xMax - this.xMin) / 2 + this.xMin, (this.yMax - this.yMin) / 2 + this.yMin, (this.zMax - this.zMin) / 2 + this.zMin);
+    return new Location(world, (xMax - xMin) / 2 + xMin, (yMax - yMin) / 2 + yMin, (zMax - zMin) / 2 + zMin);
   }
 
   public double getDistance() {
-    return this.getMinPoint().distance(this.getMaxPoint());
+    return getMinPoint().distance(getMaxPoint());
   }
 
   public double getDistanceSquared() {
-    return this.getMinPoint().distanceSquared(this.getMaxPoint());
+    return getMinPoint().distanceSquared(getMaxPoint());
   }
 
   public int getHeight() {
-    return this.yMax - this.yMin + 1;
+    return yMax - yMin + 1;
   }
 
   public Location getMinPoint() {
-    return new Location(this.world, this.xMin, this.yMin, this.zMin);
+    return new Location(world, xMin, yMin, zMin);
   }
 
   public Location getMaxPoint() {
-    return new Location(this.world, this.xMax, this.yMax, this.zMax);
+    return new Location(world, xMax, yMax, zMax);
   }
 
   public Location getRandomLocation() {
     final Random rand = new Random();
-    final int x = rand.nextInt(Math.abs(this.xMax - this.xMin) + 1) + this.xMin;
-    final int y = rand.nextInt(Math.abs(this.yMax - this.yMin) + 1) + this.yMin;
-    final int z = rand.nextInt(Math.abs(this.zMax - this.zMin) + 1) + this.zMin;
-    return new Location(this.world, x, y, z);
+    final int x = rand.nextInt(Math.abs(xMax - xMin) + 1) + xMin;
+    final int y = rand.nextInt(Math.abs(yMax - yMin) + 1) + yMin;
+    final int z = rand.nextInt(Math.abs(zMax - zMin) + 1) + zMin;
+    return new Location(world, x, y, z);
   }
 
   public int getTotalBlockSize() {
-    return this.getHeight() * this.getXWidth() * this.getZWidth();
+    return getHeight() * getXWidth() * getZWidth();
   }
 
   public int getXWidth() {
-    return this.xMax - this.xMin + 1;
+    return xMax - xMin + 1;
   }
 
   public int getZWidth() {
-    return this.zMax - this.zMin + 1;
+    return zMax - zMin + 1;
   }
 
   public boolean isIn(final Location loc) {
-    return loc.getWorld() == this.world && loc.getBlockX() >= this.xMin && loc.getBlockX() <= this.xMax && loc.getBlockY() >= this.yMin && loc.getBlockY() <= this.yMax && loc
-        .getBlockZ() >= this.zMin && loc.getBlockZ() <= this.zMax;
+    return loc.getWorld() == world && loc.getBlockX() >= xMin && loc.getBlockX() <= xMax && loc.getBlockY() >= yMin && loc.getBlockY() <= yMax && loc
+        .getBlockZ() >= zMin && loc.getBlockZ() <= zMax;
   }
 
   public boolean isIn(final Player player) {
-    return this.isIn(player.getLocation());
+    return isIn(player.getLocation());
   }
 
   public boolean isInWithMarge(final Location loc, final double marge) {
-    return loc.getWorld() == this.world && loc.getX() >= this.xMinCentered - marge && loc.getX() <= this.xMaxCentered + marge && loc.getY() >= this.yMinCentered - marge && loc
-        .getY() <= this.yMaxCentered + marge && loc.getZ() >= this.zMinCentered - marge && loc.getZ() <= this.zMaxCentered + marge;
+    return loc.getWorld() == world && loc.getX() >= xMinCentered - marge && loc.getX() <= xMaxCentered + marge && loc.getY() >= yMinCentered - marge && loc
+        .getY() <= yMaxCentered + marge && loc.getZ() >= zMinCentered - marge && loc.getZ() <= zMaxCentered + marge;
   }
 
   public boolean isEmpty() {
-    for (Block block : this.blockList()) {
+    for (Block block : blockList()) {
       if (block.getType() != Material.AIR) {
         return false;
       }
@@ -160,7 +149,7 @@ public class Cuboid {
   }
 
   public boolean contains(final Material material) {
-    for (Block block : this.blockList()) {
+    for (Block block : blockList()) {
       if (block.getType() == material) {
         return true;
       }
@@ -169,31 +158,31 @@ public class Cuboid {
   }
 
   public void fill(final Material material) {
-    for (Block block : this.blockList()) {
+    for (Block block : blockList()) {
       block.setType(material);
     }
   }
 
   public void fillWithoutFloor(final Material material) {
-    for (Block block : this.blockListWithoutFloor()) {
+    for (Block block : blockListWithoutFloor()) {
       block.setType(material);
     }
   }
 
   public void fillFloor(final Material material){
-    for (Block block : this.floorBlockList()) {
+    for (Block block : floorBlockList()) {
       block.setType(material);
     }
   }
 
   public boolean collidesWith(final Cuboid other) {
-    if (this.xMax < other.xMin || this.xMin > other.xMax) {
+    if (xMax < other.xMin || xMin > other.xMax) {
       return false;
     }
-    if (this.yMax < other.yMin || this.yMin > other.yMax) {
+    if (yMax < other.yMin || yMin > other.yMax) {
       return false;
     }
-    if (this.zMax < other.zMin || this.zMin > other.zMax) {
+    if (zMax < other.zMin || zMin > other.zMax) {
       return false;
     }
     return true;

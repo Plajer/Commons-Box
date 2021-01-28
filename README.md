@@ -2,15 +2,15 @@
 Library box with common utilities needed for Java development.
 
 ## JavaDocs
-https://jd.plajer.xyz/commonsbox
+https://jd.plugily.xyz/commonsbox
 
 ## Maven repo
 Add repository
 ```xml
     <repositories>
         <repository>
-            <id>plajerlair-repo</id>
-            <url>https://maven.plajer.xyz</url>
+            <id>plugily-projects</id>
+            <url>https://maven.plugily.xyz</url>
         </repository>
     </repositories>
 ```

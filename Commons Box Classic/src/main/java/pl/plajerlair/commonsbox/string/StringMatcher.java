@@ -21,12 +21,8 @@ public class StringMatcher {
    * @return list of matches
    */
   public static List<Match> match(String base, List<String> possibilities) {
-    possibilities.sort((o1, o2) -> {
-      if (o1.length() == o2.length()) {
-        return 0;
-      }
-      return Integer.compare(o2.length(), o1.length());
-    });
+    possibilities.sort((o1, o2) ->
+      o1.length() == o2.length() ? 0 : Integer.compare(o2.length(), o1.length()));
     int baseLength = base.length();
 
     Match bestMatch = new Match(base, -1);
